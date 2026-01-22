@@ -47,5 +47,13 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 
+# --- Supabase public defaults (temporary) ---
+ARG NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host"
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY="COLE_AQUI_SUA_ANON_KEY"
+
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+# ------------------------------------------
+
 EXPOSE 3000
 CMD ["npm", "run", "start"]
