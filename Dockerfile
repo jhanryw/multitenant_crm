@@ -10,10 +10,19 @@ ENV NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAg
 
 COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
 RUN \
-  if [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable && pnpm i --frozen-lockfile; \
-  elif [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  else npm i; fi
+  if [ -f package-lock.json ]; then \
+    NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host" \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+    npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then \
+    NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host" \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+    corepack enable && pnpm build; \
+  else \
+    NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host" \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+    yarn build; \
+  fi
 
 # ---- build ----
 FROM node:20-alpine AS builder
@@ -25,10 +34,19 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN \
-  if [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable && pnpm build; \
-  else yarn build; fi
-
+  if [ -f package-lock.json ]; then \
+    NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host" \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+    npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then \
+    NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host" \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+    corepack enable && pnpm build; \
+  else \
+    NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host" \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+    yarn build; \
+  fi
 # ---- run ----
 FROM node:20-alpine AS runner
 WORKDIR /app
@@ -52,7 +70,8 @@ COPY --from=builder /app/node_modules ./node_modules
 
 # --- Supabase public defaults (temporary) ---
 ARG NEXT_PUBLIC_SUPABASE_URL="https://crm-supabase.vodct5.easypanel.host"
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY="COLE_AQUI_SUA_ANON_KEY"
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" \
+
 
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
