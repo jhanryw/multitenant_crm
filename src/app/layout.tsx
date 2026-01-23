@@ -9,11 +9,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Next.js with Tailwind CSS',
+  title: 'Qarvon CRM | O CRM do Varejo',
   description: 'A boilerplate project with Next.js and Tailwind CSS',
   icons: {
     icon: [
-      { url: '/favicon.ico', type: 'image/x-icon' }
+      { url: '/favicon.webp', type: 'image/x-icon' }
     ],
   },
 };
