@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Icon from '@/components/ui/AppIcon';
+import { useRouter } from 'next/navigation'
+
+// dentro do componente:
+const router = useRouter()
 
 interface LoginFormProps {
   onThemeToggle: () => void;
@@ -267,19 +271,15 @@ export default function LoginForm({ onThemeToggle, isDarkMode }: LoginFormProps)
             />
             <span className="text-sm font-caption text-foreground">Lembrar-me</span>
           </label>
-import { useRouter } from 'next/navigation'
-
-// dentro do componente:
-const router = useRouter()
-
-<button
-  type="button"
-  className="text-sm font-caption text-primary hover:text-primary/80 transition-smooth"
-  disabled={isLoading}
-  onClick={() => router.push('/auth/forgot-password')}
->
-  Esqueci minha senha
-</button>
+          
+          <button
+            type="button"
+            className="text-sm font-caption text-primary hover:text-primary/80 transition-smooth"
+            disabled={isLoading}
+            onClick={() => router.push('/auth/forgot-password')}
+          >
+            Esqueci minha senha
+          </button>
         </div>
 
         {/* Submit Button */}
