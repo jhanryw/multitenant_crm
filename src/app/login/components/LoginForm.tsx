@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient'
 import Icon from '@/components/ui/AppIcon';
 
 interface LoginFormProps {
@@ -84,6 +85,38 @@ export default function LoginForm({ onThemeToggle, isDarkMode }: LoginFormProps)
     }
 
     setIsLoading(true);
+
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    })
+    
+    if (authError || !authData.user) {
+      setErrors({ general: 'E-mail ou senha inválidos.' })
+      setIsLoading(false)
+      return
+    }
+    
+    // Busca o perfil
+    const { data: profile, error: profileError } = await supabase
+      .from('user_profiles')
+      .select('id, role, company_id')
+      .eq('id', authData.user.id)
+      .single()
+    
+    if (profileError || !profile) {
+      setErrors({ general: 'Seu perfil não foi encontrado. Fale com o administrador.' })
+      setIsLoading(false)
+      return
+    }
+    
+    // Redireciona por role
+    if (profile.role === 'manager') router.push('/manager-dashboard')
+    else if (profile.role === 'seller') router.push('/seller-dashboard')
+    else if (profile.role === 'admin') router.push('/admin-dashboard')
+    else router.push('/dashboard')
+    
+        
     setErrors({});
 
     // Simulate API call
