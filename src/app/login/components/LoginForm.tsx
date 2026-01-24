@@ -3,10 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Icon from '@/components/ui/AppIcon';
-import { useRouter } from 'next/navigation'
-
-// dentro do componente:
-const router = useRouter()
 
 interface LoginFormProps {
   onThemeToggle: () => void;
